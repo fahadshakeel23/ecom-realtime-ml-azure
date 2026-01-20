@@ -9,3 +9,7 @@ ruff
 python-dotenv
 joblib
 azure-eventhub
+
+fastapi
+uvicorn[standard]
+pydantic
