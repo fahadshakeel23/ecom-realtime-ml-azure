@@ -1,0 +1,12 @@
+storage_account: "stecomlgen2fahd"
+feature_path: "gold/features_customer_daily"
+label_path: "gold/labels_purchase_7d"
+target_col: "label_purchase_next_7d"
+
+# time split (change later if needed)
+train_end_date: "2026-01-15"
+test_start_date: "2026-01-16"
+
+model:
+  type: "logreg"
+  max_iter: 500

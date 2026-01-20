@@ -1,0 +1,13 @@
+{
+  "event_id": "string",
+  "event_type": "string",
+  "event_ts": "string",
+  "user_id": "string",
+  "session_id": "string",
+  "source": "string",
+  "device": "string",
+  "app_version": "string",
+  "ip": "string",
+  "geo_country": "string",
+  "properties": "object"
+}

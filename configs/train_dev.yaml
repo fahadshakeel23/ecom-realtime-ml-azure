@@ -1,0 +1,36 @@
+project_name: "ecom-realtime-ml-azure"
+data:
+  lake_root = "data/"
+mode:
+  name: "purchase_prospensity"
+  label_window_days: 7
+
+
+# -----------------------------
+# Environment / Storage
+# -----------------------------
+storage_account: "stecomlgen2fahd"
+
+# These are logical paths (used later when we train in Databricks / Azure ML)
+feature_path: "gold/features_customer_daily"
+label_path: "gold/labels_purchase_7d"
+
+# -----------------------------
+# Target definition
+# -----------------------------
+target_col: "label_purchase_next_7d"
+
+# -----------------------------
+# Time-based split (VERY important)
+# -----------------------------
+split:
+  method: "user"
+  test_size: 0.2
+  random_state: 42
+
+# -----------------------------
+# Model configuration
+# -----------------------------
+model:
+  type: "logreg"
+  max_iter: 500

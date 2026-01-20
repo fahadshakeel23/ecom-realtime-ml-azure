@@ -1,6 +1,0 @@
-project_name: "ecom-realtime-ml-azure"
-data:
-  lake_root = "data/"
-mode:
-  name: "purchase_prospensity"
-  label_window_days: 7

@@ -1,0 +1,51 @@
+name: Train Candidate Model
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  train:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run smoke training
+        run: |
+          python -m src.training.smoke_train
+
+      - name: Read metrics and apply gate
+        run: |
+          python - <<'PY'
+          import json, sys
+          with open("artifacts/smoke_metrics.json") as f:
+              m = json.load(f)
+          roc_auc = m["roc_auc"]
+          pr_auc = m["pr_auc"]
+
+          # Gate thresholds (simple for now)
+          if roc_auc < 0.6 or pr_auc < 0.6:
+              print("❌ Gate failed:", m)
+              sys.exit(1)
+
+          print("✅ Gate passed:", m)
+
+          # Write candidate marker
+          with open("artifacts/candidate.json", "w") as f:
+              json.dump({"status": "candidate", "metrics": m}, f, indent=2)
+          PY
+
+      - name: Upload candidate artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: candidate-artifacts
+          path: artifacts/
